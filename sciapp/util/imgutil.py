@@ -218,7 +218,7 @@ def cross(winbox, conbox):
     two = np.array([winbox, conbox])
     x1, y1 = two[:,:2].max(axis=0)
     x2, y2 = two[:,2:].min(axis=0)
-    return [x1, y1, x2, y2]
+    return [int(x1), int(y1), int(x2), int(y2)]
 
 def merge(winbox, conbox):
     two = np.array([winbox, conbox])

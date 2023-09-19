@@ -1,6 +1,9 @@
 import numpy as np
 from time import time
-from collections import Iterable
+#from collections import Iterable
+from typing import Iterable
+
+# Your code here
 import shapely.geometry as geom
 from shapely.ops import unary_union
 

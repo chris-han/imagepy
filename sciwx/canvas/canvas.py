@@ -2,7 +2,7 @@ import wx, numpy as np
 from sciapp.util.imgutil import mix_img, cross, multiply, merge, lay, mat, like
 from .mark import drawmark
 from sciapp.object import Image, Shape, mark2shp, Layer, json2shp
-from sciapp.action import ImageTool, ShapeTool
+from sciapp.action import ImageTool, ShapeTool, Tool
 from time import time
 
 class Canvas (wx.Panel):
@@ -119,7 +119,7 @@ class Canvas (wx.Panel):
         if min(csbox[2]-csbox[0], csbox[3]-csbox[1])<5: return
         shp = csbox[3]-csbox[1], csbox[2]-csbox[0]
         o, m = mat(self.oribox, self.conbox, cellbox, csbox)
-        shp = tuple(np.array(shp).round().astype(np.int))
+        shp = tuple(np.array(shp).round().astype(int))
         if out is None or (out.shape, out.dtype) != (shp, img.dtype):
             self.outimg = np.zeros(shp, dtype=img.dtype)
         if not back is None and not back.img is None and (

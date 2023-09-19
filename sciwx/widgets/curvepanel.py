@@ -133,12 +133,12 @@ class CurvePanel(wx.Panel):
         for i in self.pts: 
             dc.DrawCircle(round(i[0]*self.k+ox), round(self.l+1-i[1]*self.k+oy), 2)
         xs, ys = np.linspace(0,self.l, self.l+1)+ox, self.l+1-ys*self.k+oy
-        dc.DrawPointList(list(zip(xs.round(), ys.round())))
+        dc.DrawPointList(list(zip(xs.round().astype(int), ys.round().astype(int))))
 
         dc.SetPen(wx.Pen((0,0,0), width=1, style=wx.SOLID))
         for i in np.linspace(0, self.l+1, 5):
-            dc.DrawLine(0+ox, i+oy, self.l+1+ox, i+oy)
-            dc.DrawLine(i+ox, 0+oy, i+ox, self.l+1+oy)
+            dc.DrawLine(0+ox, int(i+oy), self.l+1+ox, int(i+oy))
+            dc.DrawLine(int(i+ox), 0+oy, int(i+ox), self.l+1+oy)
         dc.SetBrush(wx.Brush((0,0,0), wx.BRUSHSTYLE_TRANSPARENT))
         arr = np.zeros((10,self.l+1,3),dtype=np.uint8)
         arr[:] = np.vstack([np.linspace(0,255,self.l+1)]*3).T

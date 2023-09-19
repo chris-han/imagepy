@@ -38,9 +38,9 @@ class CMapSelCtrl(wx.adv.OwnerDrawnComboBox):
         dc.SetPen(pen)
 
         # for painting the items in the popup
-        dc.DrawText(self.GetString( item),
+        dc.DrawText(self.GetString(int(item)),
                     r.x + 3,
-                    (r.y + 0) + ( (r.height/2) - dc.GetCharHeight() )/2
+                    int((r.y + 0) + ((r.height/2) - dc.GetCharHeight())/2)
                     )
         #dc.DrawLine( r.x+5, r.y+((r.height/4)*3)+1, r.x+r.width - 5, r.y+((r.height/4)*3)+1 )
         arr = np.zeros((10,256,3),dtype=np.uint8)

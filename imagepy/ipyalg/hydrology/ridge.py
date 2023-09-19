@@ -3,7 +3,7 @@ from numba import jit
 
 from scipy.ndimage import label, generate_binary_structure
 
-strc = np.ones((3,3), dtype=np.bool)
+strc = np.ones((3,3), dtype=bool)
 
 def count(n):
     a = [(n>>i) & 1 for i in range(8)]
@@ -19,7 +19,7 @@ lut = np.array([count(n) for n in range(256)])
 lut = np.dot(lut.reshape((-1,8)), [1,2,4,8,16,32,64,128]).astype(np.uint8)
 print(lut)
 '''
-@jit
+@jit(nopython=True)
 def core(n):
     a = np.zeros(8, dtype=np.uint8)
     for i in range(8):
@@ -54,7 +54,7 @@ def nbs8(h, w):
 def nbs4(h, w):
     return np.array([-1,-w,1,w], dtype=np.int32)
 
-@jit
+@jit(nopython=True)
 def fill(img, msk, p, level, up, pts, s, c, nbs, buf):
     n = 0; cur = 0; buf[0] = p; msk[p]=2; bs = 1;
     while cur<bs:
@@ -80,7 +80,7 @@ def fill(img, msk, p, level, up, pts, s, c, nbs, buf):
     return s, c
 
 
-@jit
+@jit(nopython=True)
 def check(msk, p, nbs, lut):
     c = 0; s = 0;
     for i in range(8):
@@ -94,7 +94,7 @@ def check(msk, p, nbs, lut):
     else: msk[p]=3
 
 
-@jit
+@jit(nopython=True)
 def step(img, msk, pts, s, level, up, nbs, nbs8):
     ddd=0
     cur = 0
@@ -130,7 +130,7 @@ def step(img, msk, pts, s, level, up, nbs, nbs8):
         cur+=1
     return cur
 
-@jit
+@jit(nopython=True)
 def clear(msk, pts, s, cur):
     ns = 0; nc=0
     for c in range(s):
@@ -140,7 +140,7 @@ def clear(msk, pts, s, cur):
             if c<cur:nc += 1
     return ns, nc
         
-@jit
+@jit(nopython=True)
 def collect(img, mark, nbs, pts):
     bins = np.zeros(img.max()+1, dtype=np.uint32)
     cur = 0
@@ -167,7 +167,7 @@ def collect(img, mark, nbs, pts):
         if s==0:bins[img[p]]+=1
     return cur, bins
 
-@jit
+@jit(nopython=True)
 def ridge(img, mark, up=True):
     oimg, omark = img, mark
     ndim = img.ndim
